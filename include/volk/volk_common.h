@@ -146,12 +146,13 @@ union bit256 {
 // log2f
 ////////////////////////////////////////////////////////////////////////
 #include <math.h>
+#include <float.h>
 typedef unsigned int U32;
 // +-Inf -> +-127.0f in order to match the behaviour of the SIMD kernels
 static inline float log2f_non_ieee(float f)
 {
     float const result = log2f(f);
-    return fabs(result) == infinity() ? copysignf(127.0f, result) : result;
+    return fabs(result) > FLT_MAX ? copysignf(127.0f, result) : result;
 }
 
 ////////////////////////////////////////////////////////////////////////
